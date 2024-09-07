@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Typing Test</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'testapp/style.css' %}" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Typing Test</h1>
+
+      <div class="text-box">
+        <!-- Random text for typing test -->
+        <p id="typing-text">{{ typing_text }}</p>
+      </div>
+
+      <textarea
+        class="input-box"
+        id="user-input"
+        rows="4"
+        placeholder="Start typing here..."
+      ></textarea>
+
+      <div class="stats">
+        <div><strong>Time:</strong> <span id="time">0</span> sec</div>
+        <div><strong>Words per Minute:</strong> <span id="wpm">0</span></div>
+        <div><strong>Accuracy:</strong> <span id="accuracy">100</span>%</div>
+      </div>
+    </div>
+
+    <script>
+      // Basic JavaScript for typing test functionality
+      let startTime, interval;
+      let timeDisplay = document.getElementById("time");
+      let wpmDisplay = document.getElementById("wpm");
+      let accuracyDisplay = document.getElementById("accuracy");
+      let userInput = document.getElementById("user-input");
+      let typingText = document.getElementById("typing-text").innerText;
+
+      userInput.addEventListener("input", () => {
+        if (!startTime) {
+          startTime = new Date().getTime();
+          interval = setInterval(updateStats, 1000);
+        }
+
+        // Check for accuracy and WPM
+        const typedText = userInput.value;
+        const correctText = typingText.slice(0, typedText.length);
+        let correctChars = 0;
+        for (let i = 0; i < typedText.length; i++) {
+          if (typedText[i] === typingText[i]) {
+            correctChars++;
+          }
+        }
+        const accuracy = (correctChars / typedText.length) * 100 || 100;
+        accuracyDisplay.innerText = accuracy.toFixed(2);
+
+        const wordsTyped = typedText.split(" ").length;
+        const timeElapsed = (new Date().getTime() - startTime) / 1000 / 60;
+        const wpm = wordsTyped / timeElapsed || 0;
+        wpmDisplay.innerText = wpm.toFixed(2);
+
+        if (typedText === typingText) {
+          clearInterval(interval);
+          alert("Test Complete!");
+        }
+      });
+
+      function updateStats() {
+        const timeElapsed = Math.floor(
+          (new Date().getTime() - startTime) / 1000
+        );
+        timeDisplay.innerText = timeElapsed;
+      }
+    </script>
+  </body>
+</html>
