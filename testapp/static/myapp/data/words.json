@@ -1,0 +1,19 @@
+{
+    "simple_words_list": [
+        "cat", "dog", "hat", "run", "jump", "bat", "sun", "fish", "star", "fun", 
+        "sit", "red", "blue", "yellow", "green", "apple", "pear", "car", "bike", 
+        "bird", "tree", "cup", "ball", "box", "book", "pen", "pencil", "toy", "table", 
+        "chair", "door", "shoe", "frog", "cow", "moon", "hand", "foot", "rain", "snow",
+        "light", "dark", "wind", "fire", "water", "cloud", "flower", "leaf", "grass", "sky",
+        "mountain", "river", "sea", "sand", "beach", "boat", "ship", "train", "plane", "road",
+        "street", "home", "house", "school", "park", "cake", "cookie", "milk", "juice", "egg",
+        "bread", "butter", "honey", "jam", "cheese", "salt", "pepper", "onion", "potato", "tomato",
+        "I", "you", "we", "they", "he", "she", "it", "a", "an", "the", "and", "but", "or", "so", 
+        "because", "if", "when", "while", "then", "although", "as", "before", "since", "until",
+        "exquisite", "phenomenon", "quintessential", "meticulous", "incredible", "spectacular",
+        "astounding", "contemplate", "demonstrate", "implement", "analyze", "hypothesis", "strategy", 
+        "calculation", "interpret", "transformation", "discovery", "philosophy", "visionary", "precision",
+        "harmony", "transcend", "introspection", "magnificent", "extraordinary", "jurisdiction",
+        "culmination", "revolutionary", "significant", "paradigm"
+    ]
+}

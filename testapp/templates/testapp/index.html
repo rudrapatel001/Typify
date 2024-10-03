@@ -5,15 +5,81 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Typing Test</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'testapp/style.css' %}" />
+    <style>
+      /* Add some basic styling */
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+      }
+
+      .container {
+        background-color: white;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: 70%;
+        text-align: center;
+      }
+      .container h1 {
+        color: #fff;
+        font-size: 4rem;
+        font-weight: 900;
+        -webkit-text-stroke: 2px #000;
+      }
+
+      .text-box {
+        border: 1px solid #ddd;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        font-size: 2rem;
+      }
+
+      .input-box {
+        width: 100%;
+        padding: 0.5rem;
+        font-size: 1rem;
+        margin-bottom: 1rem;
+      }
+
+      .stats {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 1rem;
+      }
+
+      .btn {
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #000;
+        color: white;
+        border: 1px solid #000;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 2rem;
+        transition: 0.3s ease;
+      }
+
+      .btn:hover {
+        background-color: #fff;
+        color: #000;
+      }
+    </style>
   </head>
   <body>
     <div class="container">
-      <h1>Typing Test</h1>
+      <h1>Typify</h1>
 
       <div class="text-box">
         <!-- Random text for typing test -->
-        <p id="typing-text">{{ typing_text }}</p>
+        <p id="typing-text">
+          <span id="correct-text"></span
+          ><span id="remaining-text">{{ typing_text }}</span>
+        </p>
       </div>
 
       <textarea
@@ -28,16 +94,18 @@
         <div><strong>Words per Minute:</strong> <span id="wpm">0</span></div>
         <div><strong>Accuracy:</strong> <span id="accuracy">100</span>%</div>
       </div>
+
+      <!-- Refresh and Reset Buttons -->
+      <button class="btn" id="refresh-btn">Refresh Text</button>
     </div>
 
     <script>
-      // Basic JavaScript for typing test functionality
       let startTime, interval;
       let timeDisplay = document.getElementById("time");
       let wpmDisplay = document.getElementById("wpm");
       let accuracyDisplay = document.getElementById("accuracy");
       let userInput = document.getElementById("user-input");
-      let typingText = document.getElementById("typing-text").innerText;
+      let typingText = document.getElementById("remaining-text").innerText;
 
       userInput.addEventListener("input", () => {
         if (!startTime) {
@@ -47,14 +115,23 @@
 
         // Check for accuracy and WPM
         const typedText = userInput.value;
-        const correctText = typingText.slice(0, typedText.length);
-        let correctChars = 0;
+        let correctChars = "";
+        let incorrectChars = "";
+
         for (let i = 0; i < typedText.length; i++) {
           if (typedText[i] === typingText[i]) {
-            correctChars++;
+            correctChars += typedText[i];
+          } else {
+            incorrectChars += typedText[i];
           }
         }
-        const accuracy = (correctChars / typedText.length) * 100 || 100;
+
+        document.getElementById("correct-text").innerText = correctChars;
+        document.getElementById("remaining-text").innerText = typingText.slice(
+          typedText.length
+        );
+
+        const accuracy = (correctChars.length / typedText.length) * 100 || 100;
         accuracyDisplay.innerText = accuracy.toFixed(2);
 
         const wordsTyped = typedText.split(" ").length;
@@ -74,6 +151,27 @@
         );
         timeDisplay.innerText = timeElapsed;
       }
+
+      // Refresh button to reload page
+      document
+        .getElementById("refresh-btn")
+        .addEventListener("click", function () {
+          location.reload();
+        });
+
+      // Reset button to clear input and reset stats
+      document
+        .getElementById("reset-btn")
+        .addEventListener("click", function () {
+          userInput.value = ""; // Clear the user input
+          startTime = null; // Reset start time
+          clearInterval(interval); // Clear the interval
+          timeDisplay.innerText = "0"; // Reset time display
+          wpmDisplay.innerText = "0"; // Reset WPM display
+          accuracyDisplay.innerText = "100"; // Reset accuracy display
+          document.getElementById("correct-text").innerText = "";
+          document.getElementById("remaining-text").innerText = typingText; // Reset the text display
+        });
     </script>
   </body>
 </html>
